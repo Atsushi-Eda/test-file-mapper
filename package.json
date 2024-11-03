@@ -1,0 +1,121 @@
+{
+  "name": "test-file-mapper",
+  "publisher": "city-boy",
+  "displayName": "test-file-mapper",
+  "description": "Mapping test and production files in multi-module project.",
+  "repository": {
+    "type": "git",
+    "url": "https:://github.com/Atsushi-Eda/test-file-mapper"
+  },
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.0.0"
+  },
+  "categories": [
+    "Testing"
+  ],
+  "tags": [
+    "test"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "properties": {
+        "test-file-mapper.modules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "moduleRootDirectory": {
+                "type": "string"
+              },
+              "productionFile": {
+                "type": "object",
+                "properties": {
+                  "directory": {
+                    "type": "string"
+                  },
+                  "suffixes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "directory",
+                  "suffixes"
+                ]
+              },
+              "testFile": {
+                "type": "object",
+                "properties": {
+                  "directory": {
+                    "type": "string"
+                  },
+                  "suffixes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "directory",
+                  "suffixes"
+                ]
+              },
+              "testCommand": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "productionFile",
+              "testFile",
+              "testCommand"
+            ]
+          },
+          "default": []
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "test-file-mapper.open-test-or-production-file",
+        "title": "Open test or production file"
+      },
+      {
+        "command": "test-file-mapper.run-test",
+        "title": "Run test"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run package",
+    "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.0.0",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.7.0",
+    "eslint": "^9.13.0",
+    "esbuild": "^0.24.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.6.3",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
+}
