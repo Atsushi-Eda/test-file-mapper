@@ -13,7 +13,7 @@ type Module = {
   testCommand: string;
 };
 
-const isMatch = (
+export const isMatch = (
   activeFilePath: string,
   directory: string,
   suffixes: string[]
@@ -23,7 +23,7 @@ const isMatch = (
   }
   return suffixes.some((suffix) => activeFilePath.endsWith(suffix));
 };
-const getRelatedFileUris = (
+export const getRelatedFileUris = (
   projectRootUri: vscode.Uri,
   activeFilePath: string,
   activeFileSetting: { directory: string; suffixes: string[] },
@@ -46,7 +46,7 @@ const getRelatedFileUris = (
     )
   );
 };
-const existsFile = async (uri: vscode.Uri) => {
+export const existsFile = async (uri: vscode.Uri) => {
   try {
     await vscode.workspace.fs.stat(uri);
     return true;
@@ -63,7 +63,7 @@ const createFile = async (uri: vscode.Uri) => {
   workspaceEdit.createFile(uri, { ignoreIfExists: true });
   await vscode.workspace.applyEdit(workspaceEdit);
 };
-const getTerminal = () => {
+export const getTerminal = () => {
   const name = 'test-file-mapper';
   const existingTerminal = vscode.window.terminals.find(
     (terminal) => terminal.name === name
@@ -73,7 +73,7 @@ const getTerminal = () => {
   }
   return vscode.window.createTerminal(name);
 };
-const execTestCommand = async (
+export const execTestCommand = async (
   projectRootUri: string,
   testCommand: string,
   testFilePath: string,
